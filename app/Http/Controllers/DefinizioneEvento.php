@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use View;
 use App\Models\Articoli;
 
-class Main extends Controller {
+class DefinizioneEvento extends Controller {
 
     public function mostraArticoli() {
 
@@ -15,4 +15,16 @@ class Main extends Controller {
 
     }
 
+    public function salvaArticoli() {
+
+        $articoli = Articoli::all();
+
+        return View::make('main.listaArticoli', compact('articoli'));
+
+    }
+
+
 }
+
+
+

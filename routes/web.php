@@ -16,4 +16,5 @@ Route::get('/', function () {
     $version = $laravel::VERSION;
     return $version;
 });
-Route::get('mostraArticoli', 'Main@mostraArticoli');
+Route::get('mostraArticoli', 'DefinizioneEvento@mostraArticoli');
+Route::post('salvaArticoli', 'DefinizioneEvento@salvaArticoli');
