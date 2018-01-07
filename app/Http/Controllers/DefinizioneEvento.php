@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Input;
 use View;
 use App\Models\Articoli;
 
@@ -17,9 +18,23 @@ class DefinizioneEvento extends Controller {
 
     public function salvaArticoli() {
 
-        $articoli = Articoli::all();
+        $input = Input::all();
+        $id = $input['id'];
+        $articoloSelezionato = $input['articoloSelezionato'];
+        $quantitaSelezionata = $input['quantitaSelezionata'];
+        foreach ($id as $key => $n) {
 
-        return View::make('main.listaArticoli', compact('articoli'));
+            if (!empty($articoloSelezionato[$key]))
+            {
+                echo $n . ' '.$articoloSelezionato[$key] . ' '.$quantitaSelezionata[$key].' <br>';
+            }
+        }
+        foreach ($id as $mioid) {
+
+                 echo $mioid.' <br>';
+         }
+
+
 
     }
 

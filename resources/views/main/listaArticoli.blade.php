@@ -22,12 +22,14 @@
         <tbody>
             @foreach($articoli as $articolo)
             <tr>
-                <td>{!! $articolo->articolo !!}</td>
-                <td>{{ Form::checkbox('articoloSelezionato') }}</td>
-                <td>{{ Form::text('quantitaArticolo') }}</td>
+                <td>{!! $articolo->descrizione !!}</td>
+                <td>{{ Form::hidden('id[]', $articolo->id) }}</td>
+                <td>{{ Form::checkbox('articoloSelezionato[]') }}</td>
+                <td>{{ Form::text('quantitaSelezionata[]') }}</td>
             </tr>
             @endforeach
         </tbody>
+        {!! Form::submit('Crea lista!') !!}
         {!! Form::close() !!}
     </table>
 
