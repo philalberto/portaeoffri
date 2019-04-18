@@ -1,1 +1,1 @@
-<div id="copyright text-right">© Copyright UP Arcella</div>
+<div id="copyright text-right">© Copyright UP</div>

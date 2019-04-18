@@ -12,7 +12,7 @@
 </div><!-- /row -->
 <br>
 
-<table width="50%" align="center" class="table table-bordered">
+<table width="30%" align="center" class="table table-bordered">
     <tr>
         <td  colspan="3">
             <h2>Evento</h2>
@@ -42,19 +42,47 @@
     </tr>
 </table>
 <br>
-<table width="50%" align="center" class="table table-bordered">
-@foreach($articoli as $art)
-    <tr>
-        <td width="10%">{!! $art->id_tipo_articolo !!}</td>
-        <td width="20%">{!! $art->descrizione_tipo_articolo !!}</td>
-        <td width="30%">{!! $art->descrizione_articolo !!}</td>
-        <td width="20%">{!! $art->nome_persona !!}</td>
-        <td width="20%">{!! $art->quantita !!}</td>
-    </tr>
+
+@foreach($tipoArticolo as $tipoArt)
+    <table width="30%" align="center" class="table table-bordered">
+        <tr>
+            <td  colspan="3">
+                <h4>{!! $tipoArt->descrizione !!}</h4>
+            </td>
+        </tr>
+        @foreach($articoliGiaSelezionati as $art)
+            @if ($tipoArt->id == $art->idTipart)
+                <tr>
+                    {{ Form::hidden('id[]', $art->id) }}
+                    <td width="60%">{!! $art->descrizione !!}</td>
+                    <td width="30%"><h6>{!! $art->persona !!}</h6></td>
+                    <td width="10%" class='tdright'><div style="padding-right: 3px;"> {!! $art->quantita !!}</div></td>
+                 </tr>
+            @endif
+        @endforeach
+    </table>
+    <br>
 @endforeach
-</table>
-
-
+@foreach($tipoArticolo as $tipoArt)
+    <table width="30%" align="center" class="table table-bordered">
+        <tr>
+            <td  colspan="3">
+                <h4>{!! $tipoArt->descrizione !!}</h4>
+            </td>
+        </tr>
+        @foreach($articolo as $art)
+            @if ($tipoArt->id == $art->idTipart)
+                <tr>
+                    {{ Form::hidden('id[]', $art->id) }}
+                    <td width="60%"><h6>{!! $art->descrizione !!}</h6></td>
+                    <td width="30%"></td>
+                    <td width="10%">{!! Form::text('quantita[]', $art->quantita , ['class'=>'form-control qta']) !!}</td>
+                </tr>
+            @endif
+        @endforeach
+    </table>
+    <br>
+@endforeach
 <table width="30%" align="center" class="table">
     <tr>
         <td  colspan="3">

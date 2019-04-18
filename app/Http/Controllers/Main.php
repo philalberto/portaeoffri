@@ -105,6 +105,57 @@ class Main extends Controller {
         }
     }
     public function getArticoliEvento($token) {
+        
+        $evento = DB::table('evento')
+            ->select('evento.id as id_evento',
+                'evento.data_evento',
+                'evento.luogo',
+                'evento.descrizione',
+                'evento.note',
+                'evento.token',
+                'evento.persona'
+                 )
+            ->where('evento.token', $token)
+            ->first();
+
+        $articoliGiaSelezionati = DB::table('evento_articolo')
+            ->join('articolo','evento_articolo.id_articolo', '=', 'articolo.id')
+            ->join('persona','evento_articolo.id_persona', '=', 'persona.id')
+            ->join('tipo_articolo','articolo.id_tipo_articolo', '=', 'tipo_articolo.id')
+            ->select(
+                'articolo.id_tipo_articolo',
+                'tipo_articolo.descrizione as descrizione_tipo_articolo',
+                'evento_articolo.id_articolo',
+                'articolo.descrizione as descrizione_articolo',
+                'evento_articolo.id_persona',
+	        'persona.nome as nome_persona'
+               )
+             ->selectRaw('sum(evento_articolo.quantita) as quantita')
+             ->where('evento_articolo.id_evento', 12)
+             ->groupBy('id_articolo','id_persona')
+             ->orderBy('id_tipo_articolo', 'nome_persona')
+             ->get();
+   
+          $articoli = DB::table('articolo')
+             ->join('tipo_articolo','articolo.id_tipo_articolo', '=', 'tipo_articolo.id')
+             ->select(
+                'articolo.id_tipo_articolo',
+                'tipo_articolo.descrizione as descrizione_tipo_articolo',
+                'articolo.id as id_articolo',
+                'articolo.descrizione as descrizione_articolo',
+                'null as id_persona',
+	        'null as nome_persona',
+                'null as quantita'
+               )
+             ->union($articoliGiaSelezionati)
+             ->get();
+        
+         return View::make('main.listaArticoli', compact('evento','articoli'));
+
+
+    }
+    
+    public function getArticoliEventoOLD2($token) {
 
         $evento = DB::table('evento')
             ->select('evento.id as id_evento',
@@ -139,7 +190,7 @@ class Main extends Controller {
             ->orderBy('articolo.id_tipo_articolo', 'asc')
             ->get();
 
-        $articolo = DB::table('articolo')
+        $articoli = DB::table('articolo')
             ->join('tipo_articolo','articolo.id_tipo_articolo', '=', 'tipo_articolo.id')
             ->select(
                 'articolo.id',
@@ -160,7 +211,9 @@ class Main extends Controller {
         return View::make('main.listaArticoli', compact('tipoArticolo','articoliGiaSelezionati','articolo','evento'));
 
 
-    }
+    }   
+    
+    
     public function getArticoliEventoOld($token) {
 
         $evento = DB::table('evento')
