@@ -119,9 +119,6 @@ class Main extends Controller {
             ->first();
 
         $articoliGiaSelezionati = DB::table('evento_articolo')
-            ->join('articolo','evento_articolo.id_articolo', '=', 'articolo.id')
-            ->join('persona','evento_articolo.id_persona', '=', 'persona.id')
-            ->join('tipo_articolo','articolo.id_tipo_articolo', '=', 'tipo_articolo.id')
             ->select(
                 'articolo.id_tipo_articolo',
                 'tipo_articolo.descrizione as descrizione_tipo_articolo',
@@ -131,13 +128,14 @@ class Main extends Controller {
 	        'persona.nome as nome_persona'
                )
              ->selectRaw('sum(evento_articolo.quantita) as quantita')
+             ->join('articolo','evento_articolo.id_articolo', '=', 'articolo.id')
+             ->join('persona','evento_articolo.id_persona', '=', 'persona.id')
+             ->join('tipo_articolo','articolo.id_tipo_articolo', '=', 'tipo_articolo.id')
              ->where('evento_articolo.id_evento', 12)
-             ->groupBy('id_articolo','id_persona')
-             ->orderBy('id_tipo_articolo', 'nome_persona')
-             ->get();
+             ->groupBy('id_articolo','id_persona');
+             //->get();
    
           $articoli = DB::table('articolo')
-             ->join('tipo_articolo','articolo.id_tipo_articolo', '=', 'tipo_articolo.id')
              ->select(
                 'articolo.id_tipo_articolo',
                 'tipo_articolo.descrizione as descrizione_tipo_articolo',
@@ -147,9 +145,13 @@ class Main extends Controller {
 	        'null as nome_persona',
                 'null as quantita'
                )
+             ->join('tipo_articolo','articolo.id_tipo_articolo', '=', 'tipo_articolo.id')
+             ->orderBy('id_tipo_articolo', 'asc')
+             ->orderBy('id_articolo', 'asc')
+             ->orderBy('nome_persona', 'asc')
              ->union($articoliGiaSelezionati)
              ->get();
-        
+    
          return View::make('main.listaArticoli', compact('evento','articoli'));
 
 
