@@ -15,7 +15,7 @@ use Redirect;
 use Illuminate\Support\MessageBag;
 use Illuminate\Http\Request;
 
-
+//use
 
 class Main extends Controller {
 
