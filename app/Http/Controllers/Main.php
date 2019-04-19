@@ -216,6 +216,7 @@ class Main extends Controller {
     }   
     
     
+
     public function getArticoliEventoOld($token) {
 
         $evento = DB::table('evento')
