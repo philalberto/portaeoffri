@@ -63,6 +63,7 @@
     </table>
     <br>
 @endforeach
+
 @foreach($tipoArticolo as $tipoArt)
     <table width="30%" align="center" class="table table-bordered">
         <tr>

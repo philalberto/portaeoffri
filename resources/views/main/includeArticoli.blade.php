@@ -12,7 +12,7 @@
 </div><!-- /row -->
 <br>
 
-<table width="50%" align="center" class="table table-bordered">
+<table width="100%" align="center" class="table table-bordered">
     <tr>
         <td  colspan="3">
             <h2>Evento</h2>
@@ -42,16 +42,39 @@
     </tr>
 </table>
 <br>
-<table width="50%" align="center" class="table table-bordered">
+<table width="100%" align="center" class="table table-bordered">
+    
+@php
+$tipoArticoloPrecedente = 0;
+$articoloPrecedente = 0;
+@endphp
+
 @foreach($articoli as $art)
+
+    @if ($art->id_tipo_articolo != $tipoArticoloPrecedente)
+        <tr>
+            <td colspan="3" class="tipoArticolo">{!! $art->descrizione_tipo_articolo !!}</td>
+         </tr>
+    @endif
+ 
     <tr>
-        <td width="10%">{!! $art->id_tipo_articolo !!}</td>
-        <td width="20%">{!! $art->descrizione_tipo_articolo !!}</td>
-        <td width="30%">{!! $art->descrizione_articolo !!}</td>
-        <td width="20%">{!! $art->nome_persona !!}</td>
-        <td width="20%">{!! $art->quantita !!}</td>
+        @if ($art->id_articolo != $articoloPrecedente)
+            <td width="35%">{!! $art->descrizione_articolo !!}</td>
+        @else
+            <td width="35%"></td>
+        @endif
+        
+        <td width="35%">{!! $art->nome_persona !!}</td>
+        <td width="30%">{!! $art->quantita !!}</td>
     </tr>
+     
+    @php
+        $tipoArticoloPrecedente = $art->id_tipo_articolo;
+        $articoloPrecedente = $art->id_articolo;
+    @endphp
+
 @endforeach
+
 </table>
 
 
