@@ -141,9 +141,9 @@ class Main extends Controller {
                 'tipo_articolo.descrizione as descrizione_tipo_articolo',
                 'articolo.id as id_articolo',
                 'articolo.descrizione as descrizione_articolo',
-                'null as id_persona',
-	        'null as nome_persona',
-                'null as quantita'
+                '0 as id_persona',
+	        '0 as nome_persona',
+                '0 as quantita'
                )
              ->join('tipo_articolo','articolo.id_tipo_articolo', '=', 'tipo_articolo.id')
              ->orderBy('id_tipo_articolo', 'asc')

@@ -58,14 +58,22 @@ $articoloPrecedente = 0;
     @endif
  
     <tr>
-        @if ($art->id_articolo != $articoloPrecedente)
-            <td width="35%">{!! $art->descrizione_articolo !!}</td>
+        @if ($art->quantita == 0)
+            @if ($art->id_articolo != $articoloPrecedente)
+                 <td width="35%" colspan="2">{!! $art->descrizione_articolo !!}</td>
+            @else
+                 <td width="35%" colspan="2"></td>
+            @endif
+            <td width="10%">{!! Form::text('quantita[]', null , ['class'=>'form-control qta']) !!}</td>
         @else
-            <td width="35%"></td>
+            @if ($art->id_articolo != $articoloPrecedente)
+                 <td width="35%">{!! $art->descrizione_articolo !!}</td>
+            @else
+                 <td width="35%"></td>
+            @endif
+            <td width="35%">{!! $art->nome_persona !!}</td>
+            <td width="30%" class="prezzo">{!! $art->quantita !!}</td>
         @endif
-        
-        <td width="35%">{!! $art->nome_persona !!}</td>
-        <td width="30%">{!! $art->quantita !!}</td>
     </tr>
      
     @php

@@ -22,3 +22,7 @@ html, body { height:100%; }
     border: 0 !important;
     font-size: 150%;
 }
+
+.prezzo {
+    text-align: right;
+}
