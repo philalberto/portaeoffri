@@ -113,13 +113,15 @@ class Main extends Controller {
                 'evento.descrizione',
                 'evento.note',
                 'evento.token',
-                'evento.persona'
+                'persona.nome as nome_persona'
                  )
+            ->join('persona','evento.id_persona', '=', 'persona.id')
             ->where('evento.token', $token)
             ->first();
 
-        $articoliGiaSelezionati = DB::table('evento_articolo')
+         $articoliGiaSelezionati = DB::table('evento_articolo')
             ->select(
+                'articolo.id',
                 'articolo.id_tipo_articolo',
                 'tipo_articolo.descrizione as descrizione_tipo_articolo',
                 'evento_articolo.id_articolo',
@@ -131,12 +133,13 @@ class Main extends Controller {
              ->join('articolo','evento_articolo.id_articolo', '=', 'articolo.id')
              ->join('persona','evento_articolo.id_persona', '=', 'persona.id')
              ->join('tipo_articolo','articolo.id_tipo_articolo', '=', 'tipo_articolo.id')
-             ->where('evento_articolo.id_evento', 12)
+             ->where('evento_articolo.id_evento', 5)
              ->groupBy('id_articolo','id_persona');
              //->get();
    
           $articoli = DB::table('articolo')
              ->select(
+                'articolo.id',
                 'articolo.id_tipo_articolo',
                 'tipo_articolo.descrizione as descrizione_tipo_articolo',
                 'articolo.id as id_articolo',
@@ -151,175 +154,47 @@ class Main extends Controller {
              ->orderBy('nome_persona', 'asc')
              ->union($articoliGiaSelezionati)
              ->get();
+          
+          //DB::enableQueryLog();
+          //$laQuery = DB::getQueryLog();
+          //DB::disableQueryLog();
+         
+          //   return $laQuery;
+
     
          return View::make('main.listaArticoli', compact('evento','articoli'));
 
 
     }
-    
-    public function getArticoliEventoOLD2($token) {
-
-        $evento = DB::table('evento')
-            ->select('evento.id as id_evento',
-                'evento.data_evento',
-                'evento.luogo',
-                'evento.descrizione',
-                'evento.note',
-                'evento.token',
-                'evento.persona'
-                //'persona.nome as persona'
-                 )
-            //->join('persona','evento.id_persona', '=', 'persona.id')
-            ->where('evento.token', $token)
-            ->first();
-
-        $tipoArticolo = TipoArticolo::orderBy('ordine')->get();
-
-        $articoliGiaSelezionati = DB::table('articolo')
-            ->leftJoin('evento_articolo','evento_articolo.id_articolo', '=', 'articolo.id')
-            ->join('tipo_articolo','articolo.id_tipo_articolo', '=', 'tipo_articolo.id')
-            ->select(
-                'articolo.id',
-                'articolo.id_tipo_articolo',
-                'articolo.descrizione',
-                'evento_articolo.quantita',
-                'evento_articolo.note',
-                'tipo_articolo.id as idTipart',
-                'evento_articolo.persona',
-                DB::raw('1 as inserito')
-            )
-            ->where('evento_articolo.id_evento', $evento->id_evento)
-            ->orderBy('articolo.id_tipo_articolo', 'asc')
-            ->get();
-
-        $articoli = DB::table('articolo')
-            ->join('tipo_articolo','articolo.id_tipo_articolo', '=', 'tipo_articolo.id')
-            ->select(
-                'articolo.id',
-                'articolo.id_tipo_articolo',
-                'articolo.descrizione',
-                DB::raw('null as quantita'),
-                DB::raw('null as note'),
-                'tipo_articolo.id as idTipart',
-                DB::raw('null as persona'),
-                DB::raw('0 as inserito')
-
-            )
-            ->orderBy('articolo.id_tipo_articolo', 'asc')
-            ->get();
-
-
-
-        return View::make('main.listaArticoli', compact('tipoArticolo','articoliGiaSelezionati','articolo','evento'));
-
-
-    }   
-    
-    
-
-    public function getArticoliEventoOld($token) {
-
-        $evento = DB::table('evento')
-            ->select('evento.id as id_evento',
-                'evento.data_evento',
-                'evento.luogo',
-                'evento.descrizione',
-                'evento.note',
-                'evento.token',
-                'evento.persona'
-            //'persona.nome as persona'
-            )
-            //->join('persona','evento.id_persona', '=', 'persona.id')
-            ->where('evento.token', $token)
-            ->first();
-
-        $tipoArticolo = TipoArticolo::orderBy('ordine')->get();
-
-        $articoliGiaSelezionati = DB::table('articolo')
-            ->leftJoin('evento_articolo','evento_articolo.id_articolo', '=', 'articolo.id')
-            //->leftJoin('persona','evento_articolo.id_persona', '=', 'persona.id')
-            ->join('tipo_articolo','articolo.id_tipo_articolo', '=', 'tipo_articolo.id')
-            ->select(
-                'articolo.id',
-                'articolo.id_tipo_articolo',
-                'articolo.descrizione',
-                'evento_articolo.quantita',
-                'evento_articolo.note',
-                'tipo_articolo.id as idTipart',
-                'evento_articolo.persona',
-                DB::raw('1 as inserito')
-            )
-            ->where('evento_articolo.id_evento', $evento->id_evento)
-            ->get();
-
-        $articolo = DB::table('articolo')
-            ->join('tipo_articolo','articolo.id_tipo_articolo', '=', 'tipo_articolo.id')
-            ->select(
-                'articolo.id',
-                'articolo.id_tipo_articolo',
-                'articolo.descrizione',
-                DB::raw('null as quantita'),
-                DB::raw('null as note'),
-                'tipo_articolo.id as idTipart',
-                DB::raw('null as persona'),
-                DB::raw('0 as inserito')
-
-            )
-            ->orderBy('articolo.id_tipo_articolo', 'asc')
-            ->get();
-
-
-        $articolo = DB::table('articolo')
-            ->join('tipo_articolo','articolo.id_tipo_articolo', '=', 'tipo_articolo.id')
-            ->select(
-                'articolo.id',
-                'articolo.id_tipo_articolo',
-                'articolo.descrizione',
-                DB::raw('null as quantita'),
-                DB::raw('null as note'),
-                'tipo_articolo.id as idTipart',
-                DB::raw('null as persona'),
-                DB::raw('0 as inserito')
-
-            )
-            ->orderBy('articolo.id_tipo_articolo', 'asc')
-            ->orderBy('inserito','desc')
-            ->union($articoliGiaSelezionati)
-            ->get();
-
-        return View::make('main.listaArticoli', compact('tipoArticolo','articolo','evento'));
-
-
-    }
-
     /**
      *
      */
     public function salvaArticoli() {
         $input = Input::all();
+        
 
         $token = $input['token'];
-        //$nickname = $input['nickname'];
-        $persona = $input['persona'];
+        $nickname = $input['nickname'];
         $id_evento = $input['id_evento'];
 
-//        $persona = DB::table('persona')
-//            ->select('persona.id')
-//            ->where('persona.nickname', $nickname)
-//            ->first();
+        $persona = DB::table('persona')
+            ->select('persona.id','persona.nome')
+            ->where('persona.nickname', $nickname)
+            ->first();
 
         $id = $input['id'];
         $quantita = $input['quantita'];
+        $quantitaDisp = $input['quantitaDisp'];
         $ind = -1;
 
         foreach ($id as $id1) {
              ++$ind;
-                //echo "In lista " . $id[$ind] . ' | ' . $inserito[$ind] . ' | ' . $quantita[$ind] . "<br/>";
-                if (isset($quantita[$ind])) {
+             //echo "In lista " . $ind . "<br/>";
+                //echo "In lista " . $ind . ' | ' . $id[$ind] . ' | ' . $quantitaDisp[$ind] . ' | ' . $quantita[$ind]  . ' | ' . "<br/>";
+                if (isset($quantita[$ind]) and $quantitaDisp[$ind] == 0) {
                     $eventoArticolo = new EventoArticolo;
                     $eventoArticolo->id_articolo = $id[$ind];
-                    //$eventoArticolo->id_persona = $persona->id;
-                    $eventoArticolo->persona = $persona;
+                    $eventoArticolo->id_persona = $persona->id;
                     $eventoArticolo->id_evento = $id_evento;
                     $eventoArticolo->quantita = $quantita[$ind];
                     $eventoArticolo->save();

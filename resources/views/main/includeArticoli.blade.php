@@ -7,7 +7,7 @@
         <p>{!! Form::label(null, 'Nome Persona', ['class'=>'col-xs-3 col-form-label mr-2']) !!}</p>
     </div>
     <div class="col-md-5">
-        <p>{!! Form::text('persona', '' , ['class'=>'form-control']) !!}</p>
+        <p>{!! Form::text('nickname', '' , ['class'=>'form-control']) !!}</p>
     </div>
 </div><!-- /row -->
 <br>
@@ -38,7 +38,7 @@
 
     <tr>
         <td width="45%">Evento creato da:</td>
-        <td width="55%">{!! $evento->persona !!}</td>
+        <td width="55%">{!! $evento->nome_persona !!}</td>
     </tr>
 </table>
 <br>
@@ -52,27 +52,26 @@ $articoloPrecedente = 0;
 @foreach($articoli as $art)
 
     @if ($art->id_tipo_articolo != $tipoArticoloPrecedente)
-        <tr>
+        <tr class="table-danger">
             <td colspan="3" class="tipoArticolo">{!! $art->descrizione_tipo_articolo !!}</td>
          </tr>
     @endif
+    
  
     <tr>
+        {{ Form::hidden('id[]', $art->id) }}
+        {{ Form::hidden('id_persona[]', $art->id_persona) }}
+        {{ Form::hidden('quantitaDisp[]', $art->quantita) }}
+ 
         @if ($art->quantita == 0)
-            @if ($art->id_articolo != $articoloPrecedente)
-                 <td width="35%" colspan="2">{!! $art->descrizione_articolo !!}</td>
-            @else
-                 <td width="35%" colspan="2"></td>
-            @endif
+            <td width="90%" colspan="2" class="table-info">{!! $art->descrizione_articolo !!}</td>
             <td width="10%">{!! Form::text('quantita[]', null , ['class'=>'form-control qta']) !!}</td>
         @else
-            @if ($art->id_articolo != $articoloPrecedente)
-                 <td width="35%">{!! $art->descrizione_articolo !!}</td>
-            @else
-                 <td width="35%"></td>
-            @endif
-            <td width="35%">{!! $art->nome_persona !!}</td>
-            <td width="30%" class="prezzo">{!! $art->quantita !!}</td>
+            <td width="35%" class="table-success">{!! $art->descrizione_articolo !!}</td>
+            <td width="35%" class="table-success">{!! $art->nome_persona !!}</td>
+            <td width="30%" class="prezzo table-success">{!! $art->quantita !!}</td>
+            {{ Form::hidden('quantita[]', $art->quantita) }}
+
         @endif
     </tr>
      
