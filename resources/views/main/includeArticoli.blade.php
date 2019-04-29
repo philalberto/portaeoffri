@@ -64,8 +64,12 @@ $articoloPrecedente = 0;
         {{ Form::hidden('quantitaDisp[]', $art->quantita) }}
  
         @if ($art->quantita == 0)
-            <td width="90%" colspan="2" class="table-info">{!! $art->descrizione_articolo !!}</td>
-            <td width="10%">{!! Form::text('quantita[]', null , ['class'=>'form-control qta']) !!}</td>
+            <td width="50%" colspan="2" class="table-info">{!! $art->descrizione_articolo !!}</td>
+            <td width="50%" class="table-info"><div class="aParent">
+                              <div>{!! Html::image('img/plus.png', '', array('width' => '100%', 'height' => '100%')) !!}</div>
+                              <div>{!!Form::text('quantita[]', null , ['class'=>'form-control']) !!}</div>
+                            </div>
+            </td>
         @else
             <td width="35%" class="table-success">{!! $art->descrizione_articolo !!}</td>
             <td width="35%" class="table-success">{!! $art->nome_persona !!}</td>

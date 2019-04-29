@@ -26,3 +26,9 @@ html, body { height:100%; }
 .prezzo {
     text-align: right;
 }
+
+.aParent div {
+    float: left;
+    clear: none; 
+    margin-top: 0px;
+}
