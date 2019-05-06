@@ -211,6 +211,20 @@ class Main extends Controller {
         return View::make('main.listaArticoli', compact('articolo'), compact('tipoArticolo'));
     }
 
+    public function visualizzaFormEvento() {
+
+          return View::make('main.visualizzaFormEvento');
+    }
+    
+   public function visualizzaEvento() {
+       
+        $input = Input::all();
+        $codiceEvento = $input['codiceEvento'];
+        
+        return $this->getArticoliEvento($codiceEvento);
+ 
+    }
+
 
 
     //public function postajax(Request $request){

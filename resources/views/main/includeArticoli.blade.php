@@ -58,11 +58,14 @@ $articoloPrecedente = 0;
     @endif
     
  
-    <tr>
         {{ Form::hidden('id[]', $art->id) }}
         {{ Form::hidden('id_persona[]', $art->id_persona) }}
         {{ Form::hidden('quantitaDisp[]', $art->quantita) }}
- 
+        
+        @if ($art->id_articolo != $articoloPrecedente)
+        <tr><td width="100%" colspan="3" class='pippo' >.</td></tr>
+        @endif
+        <tr>
         @if ($art->quantita == 0)
             <td width="50%" colspan="2" class="table-info">{!! $art->descrizione_articolo !!}</td>
             <td width="50%" class="table-info"><div class="aParent">

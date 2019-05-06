@@ -17,11 +17,13 @@
 //    return $version;
 //});
 Route::get('/', 'Main@menu');
-Route::get('home', 'Main@home');
+//Route::get('home', 'Main@home');
 Route::get('contact', 'Main@contact');
 Route::get('creaEvento', 'Main@creaEvento');
-
+Route::get('visualizzaFormEvento', 'Main@visualizzaFormEvento');
 Route::get('get/{token}', 'Main@getArticoliEvento'); //17/11/2015
+
+Route::post('visualizzaEvento', 'Main@visualizzaEvento');
 
 
 Route::get('getSize/{width}/{height}', 'Main@getSize');
@@ -29,6 +31,7 @@ Route::get('main', 'Main@main');
 Route::get('articoli', 'Main@mostraArticoli');
 Route::post('salvaArticoli', 'Main@salvaArticoli');
 Route::post('salvaEvento', 'Main@salvaEvento');
+
 
 
 //Route::get('ajax', function(){ return view('pages.ajax'); });

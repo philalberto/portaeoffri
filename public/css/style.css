@@ -32,3 +32,6 @@ html, body { height:100%; }
     clear: none; 
     margin-top: 0px;
 }
+
+.pippo {border: 1px solid #666; margin: 1px;
+  text-align: center; }
