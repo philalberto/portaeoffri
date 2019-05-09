@@ -11,6 +11,11 @@
                 {!! Form::label(null, 'Data:', ['class'=>'col-xs-3 col-form-label mr-2']) !!}
                 {!! Form::text('data_evento', null, array('id' => 'datepicker', 'placeholder' => 'Data Evento', 'class'=> 'datepicker' )) !!}
             </div>
+        
+            <div class="form-group row">
+                {!! Form::label(null, 'Nickname Evento:', ['class'=>'col-xs-3 col-form-label mr-2']) !!}
+                {!! Form::text('nickname_evento', null, ['class'=>'form-control']) !!}
+            </div>
 
             <div class="form-group row">
                 {!! Form::label(null, 'Descrizione:', ['class'=>'col-xs-3 col-form-label mr-2']) !!}
@@ -29,7 +34,7 @@
 
             <div class="form-group row">
                 {!! Form::label(null, 'Nome Responsabile Evento:', ['class'=>'col-xs-3 col-form-label mr-2']) !!}
-                {!! Form::text('persona', null, ['class'=>'form-control']) !!}
+                {!! Form::text('nickname', null, ['class'=>'form-control']) !!}
             </div>
 
             <div class="form-group row">

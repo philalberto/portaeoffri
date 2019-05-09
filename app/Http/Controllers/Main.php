@@ -57,47 +57,47 @@ class Main extends Controller {
             'descrizione' => 'required',
             'luogo' => 'required',
             'data_evento' => 'required',
-            'persona' => 'required'
-
+            'nickname' => 'required',
+            'nickname_evento' => 'required|regex:/^([A-Z0-9]+)$/'
         );
 
         $messages = array(
             'data_evento.required' => 'Data non valorizzata',
             'luogo.required' => 'Luogo non valorizzato',
-            'persona.required' => 'Nome Responsabile Evento non valorizzato',
-            'descrizione.required' => 'Luogo non valorizzato'
+            'nickname.required' => 'Nome Responsabile Evento non valorizzato',
+            'descrizione.required' => 'Descrizione non valorizzaa',
+            'nickname_evento.required' => 'Nickname evento non valorizzato',
+            'nickname_evento.regex' => 'Nickname evento - Sono permessi solo caratteri alfabetici maiuscoli e numeri'
         );
 
         $validator = Validator::make($input, $rules, $messages);
 
         if ($validator->passes()) {
 
-//            $persona = DB::table('persona')
-//                ->select('persona.id')
-//                ->where('persona.nickname', $input['nickname'])
-//                ->first();
-//            if (is_null($persona))
-//            {
-//                $msg = new MessageBag;
-//                $msg->add('nickname', 'Nickname non esistente in archivio. Provvedere alla registrazione');
-//                return Redirect::to('creaEvento')->withInput()->withErrors($msg->all());
-//            }
-//            else
-//            {
-            $token = str_random(20);
-
-            $evento = new Evento;
-            $evento->token = $token;
-            $evento->descrizione = $input['descrizione'];
-            $evento->luogo = $input['luogo'];
-            $evento->note = $input['note'];
-            //$evento->id_persona = $persona->id;
-            $evento->persona = $input['persona'];
-            $evento->data_evento = date('Y-m-d', strtotime($input['data_evento']));
-            $evento->save();
-
-            echo $token;
- //           }
+            $persona = DB::table('persona')
+                ->select('persona.id')
+                ->where('persona.nickname', $input['nickname'])
+                ->first();
+            if (is_null($persona))
+            {
+                $msg = new MessageBag;
+                $msg->add('nickname', 'Nickname non esistente in archivio. Provvedere alla registrazione');
+                return Redirect::to('creaEvento')->withInput()->withErrors($msg->all());
+            }
+            else  //preg_match('/[^a-zA-Z0-9\.]/', $your_variable);
+            {
+                $token = str_random(20);
+                $evento = new Evento;
+                $evento->token = $token;
+                $evento->descrizione = $input['descrizione'];
+                $evento->luogo = $input['luogo'];
+                $evento->note = $input['note'];
+                $evento->id_persona = $persona->id;
+                //$evento->persona = $input['persona'];
+                $evento->data_evento = date('Y-m-d', strtotime($input['data_evento']));
+                $evento->save();
+                echo $token;
+            }
         }
         else
         {
