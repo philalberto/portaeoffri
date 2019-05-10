@@ -49,6 +49,11 @@ class Main extends Controller {
 
         return View::make('pages.creaEvento');
     }
+    
+    public function insCodiceEvento() {
+
+        return View::make('pages.insCodiceEvento');
+    }
 
     public function salvaEvento() {
 

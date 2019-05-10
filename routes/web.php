@@ -23,7 +23,7 @@ Route::get('creaEvento', 'Main@creaEvento');
 Route::get('visualizzaFormEvento', 'Main@visualizzaFormEvento');
 Route::get('get/{token}', 'Main@getArticoliEvento'); //17/11/2015
 
-Route::post('visualizzaEvento', 'Main@visualizzaEvento');
+Route::get('insCodiceEvento', 'Main@insCodiceEvento');
 
 
 Route::get('getSize/{width}/{height}', 'Main@getSize');
